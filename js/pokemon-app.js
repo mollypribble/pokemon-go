@@ -60,10 +60,11 @@ let map = new InteractiveMap({
 	update() {
 		// Do something each frame
 		// console.log(this.landmarks)
+		gameState.distance = 0
 		for (var i = 0; i < 10; i++) {
 			// console.log(this.landmarks[i].distanceToPlayer)
-			gameState.distance = 0
 			if (this.landmarks[i].distanceToPlayer){
+				console.log(this.landmarks[i].distanceToPlayer)
 				gameState.distance += this.landmarks[i].distanceToPlayer
 			}
 		}
