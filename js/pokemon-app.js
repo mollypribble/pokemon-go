@@ -15,9 +15,10 @@ const UPDATE_RATE = 100
 let landmarkCount = 0
 
 let gameState = {
-	points: 0,
-	captured: [],
-	messages: []
+	// points: 0,
+	// captured: [],
+	// messages: [], 
+	distance: 0
 }
 
 // Create an interactive map
@@ -31,15 +32,16 @@ let map = new InteractiveMap({
 
 	initializeMap() {
 		// A good place to load landmarks
-		this.loadLandmarks("landmarks-shop-evanston", (landmark) => {
+		// this.loadLandmarks("landmarks-natural-nu", (landmark) => {
 			// Keep this landmark?
+			// console.log(landmark.properties.natural)
 
-			// Keep all landmarks in the set
-			return true
+			// // Keep all landmarks in the set
+			// return true //landmark.properties.natural
 
 			// Only keep this landmark if its a store or amenity, e.g.
 			// return landmark.properties.amenity || landmark.properties.store
-		})
+		// })
 
 		// Create random landmarks
 		// You can also use this to create trails or clusters for the user to find
@@ -57,6 +59,15 @@ let map = new InteractiveMap({
 
 	update() {
 		// Do something each frame
+		// console.log(this.landmarks)
+		for (var i = 0; i < 10; i++) {
+			// console.log(this.landmarks[i].distanceToPlayer)
+			gameState.distance = 0
+			if (this.landmarks[i].distanceToPlayer){
+				gameState.distance += this.landmarks[i].distanceToPlayer
+			}
+		}
+		console.log(gameState.distance)
 	},
 
 	initializeLandmark: (landmark, isPlayer) => {
@@ -82,29 +93,31 @@ let map = new InteractiveMap({
 		// What happens when the user enters a range
 		// -1 is not in any range
 
-		console.log("enter", landmark.name, newLevel)
-		if (newLevel == 2) {
+		// console.log("enter", landmark.name, newLevel)
+		// console.log("dist", dist)
+		// if (newLevel == 2) {
 
-			// Add points to my gamestate
-			gameState.points += landmark.points
+		// 	// Add points to my gamestate
+		// 	gameState.points += landmark.points
 
 			
 
-			// Have we captured this?
-			if (!gameState.captured.includes(landmark.name)) {
-				gameState.captured.push(landmark.name)
-				// Add a message
-				gameState.messages.push(`You captured ${landmark.name} for ${landmark.points} points`)
-			}
+		// 	// Have we captured this?
+		// 	if (!gameState.captured.includes(landmark.name)) {
+		// 		gameState.captured.push(landmark.name)
+		// 		// Add a message
+		// 		gameState.messages.push(`You captured ${landmark.name} for ${landmark.points} points`)
+		// 	}
 
-		}
+		// }
 	},
 
 	onExitRange: (landmark, newLevel, oldLevel, dist) => {
 		// What happens when the user EXITS a range around a landmark 
 		// e.g. (2->1, 0->-1)
 		
-		console.log("exit", landmark.name, newLevel)
+		// console.log("exit", landmark.name, newLevel)
+		// console.log("dist", dist)
 	},
 	
 	
@@ -150,7 +163,7 @@ window.onload = (event) => {
 			<div id="main-columns">
 
 				<div class="main-column" style="flex:1;overflow:scroll;max-height:200px">
-					(TODO, add your own gamestate)
+					Minmize the distance between all landmarks!
 					{{gameState}}
 					
 				</div>
